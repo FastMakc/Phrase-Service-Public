@@ -23,15 +23,6 @@ public class Controller {
         return hello;
     }
 
-    @PostMapping("/test")
-    public ResponseEntity<Response> test() {
-
-        log.info("START endpoint test");
-        ResponseEntity<Response> response = phraseService.test();
-        log.info("END endpoint test, response: {}", response);
-        return response;
-    }
-
     @PostMapping("/registration")
     public ResponseEntity<Response> registration(@RequestBody final RegistrationReq req) {
 

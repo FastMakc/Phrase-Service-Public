@@ -14,11 +14,11 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 public class RegistrationReq {
 
-    @NotBlank(message = "nickname должен быть заполнен")
-    @Pattern(regexp = "^[a-zA-Z0-9а-яА-Я. _-]{4,15}$", message = "Неккоректный nickname")
+    @NotBlank(message = "Nickname must be filled in")
+    @Pattern(regexp = "^[a-zA-Z0-9а-яА-Я. _-]{4,15}$", message = "Incorrect nickname")
     private String nickname;
 
-    @NotBlank(message = "password должен быть заполнен")
-    @Pattern(regexp = "^[a-zA-Z0-9а-яА-Я.,:; _?!+=/'\\\\\"*(){}\\[\\]\\-]{8,100}$", message = "Неккоректный password")
+    @NotBlank(message = "Password must be filled in")
+    @Pattern(regexp = "^[a-zA-Z0-9а-яА-Я.,:; _?!+=/'\\\\\"*(){}\\[\\]\\-]{8,100}$", message = "Incorrect password")
     private String password;
 }

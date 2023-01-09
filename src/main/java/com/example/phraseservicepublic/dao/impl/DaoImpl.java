@@ -1,6 +1,7 @@
 package com.example.phraseservicepublic.dao.impl;
 
 import com.example.phraseservicepublic.dao.Dao;
+import com.example.phraseservicepublic.domen.dto.User;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

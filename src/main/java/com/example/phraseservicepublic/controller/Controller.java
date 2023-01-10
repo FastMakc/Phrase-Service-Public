@@ -1,5 +1,6 @@
 package com.example.phraseservicepublic.controller;
 
+import com.example.phraseservicepublic.domen.api.LoginReq;
 import com.example.phraseservicepublic.domen.api.RegistrationReq;
 import com.example.phraseservicepublic.domen.response.Response;
 import com.example.phraseservicepublic.service.PhraseService;
@@ -21,6 +22,15 @@ public class Controller {
         String hello = "Hello, phrase-service! Version: 1.0.0";
         log.info(hello);
         return hello;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Response> login(@RequestBody final LoginReq req) {
+        log.info("START endpoint login, request: {}", req);
+        ResponseEntity<Response> resp = phraseService.login(req);
+        log.info("END endpoint login, response: {}", resp);
+        return resp;
+
     }
 
     @PostMapping("/registration")

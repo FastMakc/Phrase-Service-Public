@@ -1,6 +1,8 @@
 package com.example.phraseservicepublic.service.impl;
 
 import com.example.phraseservicepublic.dao.Dao;
+import com.example.phraseservicepublic.domen.api.LoginReq;
+import com.example.phraseservicepublic.domen.api.LoginResp;
 import com.example.phraseservicepublic.domen.api.RegistrationReq;
 import com.example.phraseservicepublic.domen.api.RegistrationResp;
 import com.example.phraseservicepublic.domen.constant.Code;
@@ -30,6 +32,15 @@ public class PhraseServiceImpl implements PhraseService {
     private final ValidationUtils validationUtils;
     private final Dao dao;
 
+    @Override
+    public ResponseEntity<Response> login(LoginReq req) {
+        validationUtils.validationRequest(req);
+
+        String encryptPassword = DigestUtils.md5DigestAsHex(req.getPassword().getBytes());
+        String accessToken = dao.getAccessToken(User.builder().nickname(req.getNickname()).encryptPassword(encryptPassword).build());
+        return new ResponseEntity<>(SuccessResponse.builder().data(LoginResp.builder().accessToken(accessToken).build()).build(), HttpStatus.OK);
+
+    }
     @Override
     public ResponseEntity<Response> registration(RegistrationReq req) {
         validationUtils.validationRequest(req);

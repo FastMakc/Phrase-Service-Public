@@ -1,10 +1,14 @@
 package com.example.phraseservicepublic.dao.impl;
 
 import com.example.phraseservicepublic.dao.Dao;
+import com.example.phraseservicepublic.domen.constant.Code;
 import com.example.phraseservicepublic.domen.dto.User;
+import com.example.phraseservicepublic.domen.response.exception.CommonException;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -26,6 +30,17 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
     @PostConstruct
     private void initialize() {
         setDataSource(dataSource);
+    }
+
+    @Override
+    public String getAccessToken(User user) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT access_token FROM user WHERE nickname = ? AND password = ?;",
+                    String.class, user.getNickname(), user.getEncryptPassword());
+        } catch (EmptyResultDataAccessException ex) {
+            log.error(ex.toString());
+            throw CommonException.builder().code(Code.USER_NOT_FOUND).message("User not found").httpStatus(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @Override

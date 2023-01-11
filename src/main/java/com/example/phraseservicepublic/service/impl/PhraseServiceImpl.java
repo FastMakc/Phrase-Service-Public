@@ -11,6 +11,7 @@ import com.example.phraseservicepublic.domen.response.Response;
 import com.example.phraseservicepublic.domen.response.SuccessResponse;
 import com.example.phraseservicepublic.domen.response.exception.CommonException;
 import com.example.phraseservicepublic.service.PhraseService;
+import com.example.phraseservicepublic.util.EncryptUtils;
 import com.example.phraseservicepublic.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,14 +31,15 @@ import java.util.UUID;
 public class PhraseServiceImpl implements PhraseService {
 
     private final ValidationUtils validationUtils;
+    private final EncryptUtils encryptUtils;
     private final Dao dao;
 
     @Override
     public ResponseEntity<Response> login(LoginReq req) {
         validationUtils.validationRequest(req);
 
-        String encryptPassword = DigestUtils.md5DigestAsHex(req.getPassword().getBytes());
-        String accessToken = dao.getAccessToken(User.builder().nickname(req.getNickname()).encryptPassword(encryptPassword).build());
+        String encryptPassword = encryptUtils.encryptPassword(req.getAuthorization().getPassword());
+        String accessToken = dao.getAccessToken(User.builder().nickname(req.getAuthorization().getNickname()).encryptPassword(encryptPassword).build());
         return new ResponseEntity<>(SuccessResponse.builder().data(LoginResp.builder().accessToken(accessToken).build()).build(), HttpStatus.OK);
 
     }
@@ -45,12 +47,12 @@ public class PhraseServiceImpl implements PhraseService {
     public ResponseEntity<Response> registration(RegistrationReq req) {
         validationUtils.validationRequest(req);
 
-        if(dao.isExistsNickname(req.getNickname()))
+        if(dao.isExistsNickname(req.getAuthorization().getNickname()))
             throw CommonException.builder().code(Code.NICKNAME_BUSY).message("This username is already taken, please come up with another one.").httpStatus(HttpStatus.BAD_REQUEST).build();
 
         String accessToken = UUID.randomUUID().toString().replace("-","") + System.currentTimeMillis();
-        String encryptPassword = DigestUtils.md5DigestAsHex(req.getPassword().getBytes());
-        dao.insertNewUser(User.builder().nickname(req.getNickname()).encryptPassword(encryptPassword).accessToken(accessToken).build());
+        String encryptPassword = DigestUtils.md5DigestAsHex(req.getAuthorization().getPassword().getBytes());
+        dao.insertNewUser(User.builder().nickname(req.getAuthorization().getNickname()).encryptPassword(encryptPassword).accessToken(accessToken).build());
 
         return new ResponseEntity<>(SuccessResponse.builder().data(RegistrationResp.builder().accessToken(accessToken).build()).build(), HttpStatus.OK);
 

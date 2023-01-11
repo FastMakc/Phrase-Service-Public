@@ -6,8 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotNull;
+
 
 @Data
 @Builder
@@ -15,11 +15,6 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 public class RegistrationReq {
 
-    @NotBlank(message = "Nickname must be filled in")
-    @Pattern(regexp = RegExp.nickname, message = "Incorrect nickname")
-    private String nickname;
-
-    @NotBlank(message = "Nickname must be filled in")
-    @Pattern(regexp = RegExp.password, message = "Incorrect nickname")
-    private String password;
+    @NotNull(message = "Authorization must be filled in")
+    private Authorization authorization;
 }

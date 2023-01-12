@@ -35,6 +35,22 @@ public class PhraseServiceImpl implements PhraseService {
     private final Dao dao;
 
     @Override
+    public ResponseEntity<Response> publicPhrase(PublicPhraseReq req, String accessToken) {
+        validationUtils.validationRequest(req);
+
+        long userId = dao.getIdByToken(accessToken);
+        long phraseId = dao.addPhrase(userId, req.getText());
+        log.info("userId: {}, phraseId: {}", userId, phraseId);
+
+        for (String tag : req.getTags()) {
+            dao.addTag(tag);
+            dao.addPhraseTag(phraseId, tag);
+        }
+
+        return new ResponseEntity<>(SuccessResponse.builder().build(), HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<Response> login(LoginReq req) {
         validationUtils.validationRequest(req);
 

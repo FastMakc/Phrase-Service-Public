@@ -33,6 +33,22 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
     }
 
     @Override
+    public long addPhrase(long userId, String text) {
+        jdbcTemplate.update("INSERT INTO phrase(user_id, text) VALUES (?, ?);", userId, text);
+        return jdbcTemplate.queryForObject("SELECT id FROM phrase WHERE id = LAST_INSERT_ID();", Long.class);
+    }
+
+    @Override
+    public long getIdByToken(String accessToken) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT id FROM user WHERE access_token = ?;", Long.class, accessToken);
+        } catch (EmptyResultDataAccessException ex) {
+            log.error(ex.toString());
+            throw CommonException.builder().code(Code.AUTHORIZATION_ERROR).message("Authorization error").httpStatus(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @Override
     public String getAccessToken(User user) {
         try {
             return jdbcTemplate.queryForObject("SELECT access_token FROM user WHERE nickname = ? AND password = ?;",

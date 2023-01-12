@@ -24,6 +24,14 @@ public class Controller {
         return hello;
     }
 
+    @PostMapping("/publicPhrase")
+    public ResponseEntity<Response> publicPhrase(@RequestHeader final String accessToken, @RequestBody final PublicPhraseReq req) {
+        log.info("START endpoint publicPhrase, accessToken: {}, request: {}", accessToken, req);
+        ResponseEntity<Response> resp = phraseService.publicPhrase(req, accessToken);
+        log.info("END endpoint publicPhrase, response: {}", resp);
+        return resp;
+    }
+
     @PostMapping("/login")
     public ResponseEntity<Response> login(@RequestBody final LoginReq req) {
         log.info("START endpoint login, request: {}", req);

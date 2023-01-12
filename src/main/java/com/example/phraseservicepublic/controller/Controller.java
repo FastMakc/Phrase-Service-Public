@@ -1,6 +1,7 @@
 package com.example.phraseservicepublic.controller;
 
 import com.example.phraseservicepublic.domen.api.LoginReq;
+import com.example.phraseservicepublic.domen.api.PublicPhraseReq;
 import com.example.phraseservicepublic.domen.api.RegistrationReq;
 import com.example.phraseservicepublic.domen.response.Response;
 import com.example.phraseservicepublic.service.PhraseService;

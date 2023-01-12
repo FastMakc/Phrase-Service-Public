@@ -13,7 +13,7 @@ import javax.validation.Validator;
 import java.util.Set;
 
 @Slf4j
-@Component
+@Service
 @RequiredArgsConstructor
 public class ValidationUtils {
     private final Validator validator;

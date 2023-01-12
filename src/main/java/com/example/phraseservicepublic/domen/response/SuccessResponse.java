@@ -4,9 +4,10 @@ import com.example.phraseservicepublic.domen.response.Response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@lombok.Data
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

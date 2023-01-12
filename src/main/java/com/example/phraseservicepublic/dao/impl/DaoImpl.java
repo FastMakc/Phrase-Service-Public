@@ -39,6 +39,18 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
     }
 
     @Override
+    public void addPhraseTag(long phraseId, String tag) {
+        jdbcTemplate.update("INSERT IGNORE INTO phrase_tag(phrase_id, tag_id) VALUES (?, (SELECT id FROM tag WHERE text = LOWER(?)));", phraseId,tag);
+    }
+
+    @Override
+    public void addTag(String tag) {
+
+        jdbcTemplate.update("INSERT INTO tag(text) SELECT DISTINCT LOWER(?) FROM tag WHERE NOT EXISTS(SELECT text FROM tag WHERE tag = LOWER(?));", tag, tag);
+
+    }
+
+    @Override
     public long getIdByToken(String accessToken) {
         try {
             return jdbcTemplate.queryForObject("SELECT id FROM user WHERE access_token = ?;", Long.class, accessToken);

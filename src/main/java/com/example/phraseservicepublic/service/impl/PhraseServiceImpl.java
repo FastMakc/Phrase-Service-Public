@@ -1,10 +1,7 @@
 package com.example.phraseservicepublic.service.impl;
 
 import com.example.phraseservicepublic.dao.Dao;
-import com.example.phraseservicepublic.domen.api.LoginReq;
-import com.example.phraseservicepublic.domen.api.LoginResp;
-import com.example.phraseservicepublic.domen.api.RegistrationReq;
-import com.example.phraseservicepublic.domen.api.RegistrationResp;
+import com.example.phraseservicepublic.domen.api.*;
 import com.example.phraseservicepublic.domen.constant.Code;
 import com.example.phraseservicepublic.domen.dto.User;
 import com.example.phraseservicepublic.domen.response.Response;
@@ -26,7 +23,7 @@ import java.util.UUID;
 
 
 @Slf4j
-@Component
+@Service
 @RequiredArgsConstructor
 public class PhraseServiceImpl implements PhraseService {
 

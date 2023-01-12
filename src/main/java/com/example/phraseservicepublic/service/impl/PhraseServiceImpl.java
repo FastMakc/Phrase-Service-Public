@@ -51,7 +51,7 @@ public class PhraseServiceImpl implements PhraseService {
             throw CommonException.builder().code(Code.NICKNAME_BUSY).message("This username is already taken, please come up with another one.").httpStatus(HttpStatus.BAD_REQUEST).build();
 
         String accessToken = UUID.randomUUID().toString().replace("-","") + System.currentTimeMillis();
-        String encryptPassword = DigestUtils.md5DigestAsHex(req.getAuthorization().getPassword().getBytes());
+        String encryptPassword = encryptUtils.encryptPassword(req.getAuthorization().getPassword());
         dao.insertNewUser(User.builder().nickname(req.getAuthorization().getNickname()).encryptPassword(encryptPassword).accessToken(accessToken).build());
 
         return new ResponseEntity<>(SuccessResponse.builder().data(RegistrationResp.builder().accessToken(accessToken).build()).build(), HttpStatus.OK);

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 @Slf4j
-@Service
+@Component
 @RequiredArgsConstructor
 public class EncryptUtils {
     public String encryptPassword(String password) {

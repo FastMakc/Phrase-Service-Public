@@ -1,4 +1,4 @@
-package com.example.phraseservicepublic.domen.api;
+package com.example.phraseservicepublic.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginResp {
+public class User {
+    private String nickname;
+    private String encryptPassword;
     private String accessToken;
 }

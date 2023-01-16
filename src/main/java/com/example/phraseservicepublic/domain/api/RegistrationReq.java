@@ -1,6 +1,5 @@
-package com.example.phraseservicepublic.domen.api;
+package com.example.phraseservicepublic.domain.api;
 
-import com.example.phraseservicepublic.domen.constant.RegExp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginReq {
+public class RegistrationReq {
 
     @NotNull(message = "Authorization must be filled in")
     private Authorization authorization;

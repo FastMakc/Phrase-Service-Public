@@ -1,4 +1,4 @@
-package com.example.phraseservicepublic.domen.constant;
+package com.example.phraseservicepublic.domain.constant;
 
 public enum Code {
     REQUEST_VALIDATION_ERROR,
@@ -6,5 +6,6 @@ public enum Code {
     INTERNAL_SERVER_ERROR,
     TEST,
     AUTHORIZATION_ERROR,
-    USER_NOT_FOUND
+    USER_NOT_FOUND,
+    MISSING_REQUEST_HEADER
 }

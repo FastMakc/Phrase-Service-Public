@@ -1,11 +1,10 @@
 package com.example.phraseservicepublic.util;
 
-import com.example.phraseservicepublic.domen.constant.Code;
-import com.example.phraseservicepublic.domen.response.exception.CommonException;
+import com.example.phraseservicepublic.domain.constant.Code;
+import com.example.phraseservicepublic.domain.response.exception.CommonException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;

@@ -1,9 +1,11 @@
 package com.example.phraseservicepublic.dao.impl;
 
 import com.example.phraseservicepublic.dao.Dao;
-import com.example.phraseservicepublic.domen.constant.Code;
-import com.example.phraseservicepublic.domen.dto.User;
-import com.example.phraseservicepublic.domen.response.exception.CommonException;
+import com.example.phraseservicepublic.domain.constant.Code;
+import com.example.phraseservicepublic.domain.dto.User;
+import com.example.phraseservicepublic.domain.entity.Phrase;
+import com.example.phraseservicepublic.domain.entity.PhraseRowMapper;
+import com.example.phraseservicepublic.domain.response.exception.CommonException;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Slf4j
 @Repository
@@ -32,12 +35,20 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
         setDataSource(dataSource);
     }
 
+
+
     @Override
     public long addPhrase(long userId, String text) {
         jdbcTemplate.update("INSERT INTO phrase(user_id, text) VALUES (?, ?);", userId, text);
         return jdbcTemplate.queryForObject("SELECT id FROM phrase WHERE id = LAST_INSERT_ID();", Long.class);
     }
 
+
+    @Override
+    public long getUserIdByPhraseId(long phraseId) {
+
+        return jdbcTemplate.queryForObject("SELECT user_id FROM phrase WHERE id = ?;", Long.class, phraseId);
+    }
     @Override
     public void addPhraseTag(long phraseId, String tag) {
         jdbcTemplate.update("INSERT IGNORE INTO phrase_tag(phrase_id, tag_id) VALUES (?, (SELECT id FROM tag WHERE text = LOWER(?)));", phraseId,tag);
@@ -79,5 +90,20 @@ public class DaoImpl extends JdbcDaoSupport implements Dao {
     @Override
     public void insertNewUser (User user) {
         jdbcTemplate.update("INSERT INTO user(nickname, password, access_token) VALUES (?,?,?);", user.getNickname(), user.getEncryptPassword(), user.getAccessToken());
+    }
+
+    @Override
+    public void addPhrasesTag(long phraseId, String tag) {
+        jdbcTemplate.update("INSERT IGNORE INTO phrase_tag(phrase_id, tag_id) VALUES (?, (SELECT id FROM tag WHERE text = LOWER(?)));", phraseId, tag);
+    }
+
+    @Override
+    public List<Phrase> getPhrasesByUserId(long userId) {
+        return jdbcTemplate.query("SELECT * FROM phrase WHERE user_id = ? ORDER BY time_insert DESC;", new PhraseRowMapper(), userId);
+    }
+
+    @Override
+    public List<String> getTagsByPhraseId(long phraseId) {
+        return jdbcTemplate.queryForList("SELECT text FROM tag WHERE id IN (SELECT tag_id FROM phrase_tag WHERE phrase_id = ?);", String.class, phraseId);
     }
 }

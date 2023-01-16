@@ -1,6 +1,6 @@
-package com.example.phraseservicepublic.domen.response.error;
+package com.example.phraseservicepublic.domain.response.error;
 
-import com.example.phraseservicepublic.domen.constant.Code;
+import com.example.phraseservicepublic.domain.constant.Code;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
@@ -11,5 +11,6 @@ import lombok.Data;
 public class Error {
 
     private Code code;
-    private String message;
+    private String userMessage;
+    private String techMessage;
 }

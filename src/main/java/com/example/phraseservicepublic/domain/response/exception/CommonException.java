@@ -1,6 +1,6 @@
-package com.example.phraseservicepublic.domen.response.exception;
+package com.example.phraseservicepublic.domain.response.exception;
 
-import com.example.phraseservicepublic.domen.constant.Code;
+import com.example.phraseservicepublic.domain.constant.Code;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.http.HttpStatus;

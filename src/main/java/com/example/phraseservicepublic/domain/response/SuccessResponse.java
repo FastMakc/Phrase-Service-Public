@@ -1,6 +1,5 @@
-package com.example.phraseservicepublic.domen.response;
+package com.example.phraseservicepublic.domain.response;
 
-import com.example.phraseservicepublic.domen.response.Response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

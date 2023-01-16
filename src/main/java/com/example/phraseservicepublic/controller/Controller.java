@@ -1,9 +1,9 @@
 package com.example.phraseservicepublic.controller;
 
-import com.example.phraseservicepublic.domen.api.LoginReq;
-import com.example.phraseservicepublic.domen.api.PublicPhraseReq;
-import com.example.phraseservicepublic.domen.api.RegistrationReq;
-import com.example.phraseservicepublic.domen.response.Response;
+import com.example.phraseservicepublic.domain.api.LoginReq;
+import com.example.phraseservicepublic.domain.api.PublicPhraseReq;
+import com.example.phraseservicepublic.domain.api.RegistrationReq;
+import com.example.phraseservicepublic.domain.response.Response;
 import com.example.phraseservicepublic.service.PhraseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +23,15 @@ public class Controller {
         String hello = "Hello, phrase-service! Version: 1.0.0";
         log.info(hello);
         return hello;
+    }
+
+    @GetMapping("/getMyPhrases")
+    public ResponseEntity<Response> getMyPhrases(@RequestHeader final String accessToken) {
+
+        log.info("START getMyPhrases, accessToken: {}", accessToken);
+        ResponseEntity<Response> resp = phraseService.getMyPhrases(accessToken);
+        log.info("END endpoint getMyPhrases, response:{}", resp);
+        return resp;
     }
 
     @PostMapping("/publicPhrase")

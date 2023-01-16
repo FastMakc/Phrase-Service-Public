@@ -1,6 +1,6 @@
-package com.example.phraseservicepublic.domen.api;
+package com.example.phraseservicepublic.domain.api;
 
-import com.example.phraseservicepublic.domen.constant.RegExp;
+import com.example.phraseservicepublic.domain.constant.RegExp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

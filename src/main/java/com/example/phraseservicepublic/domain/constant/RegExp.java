@@ -1,4 +1,4 @@
-package com.example.phraseservicepublic.domen.constant;
+package com.example.phraseservicepublic.domain.constant;
 
 public class RegExp {
 

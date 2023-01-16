@@ -1,12 +1,13 @@
 package com.example.phraseservicepublic.service.impl;
 
 import com.example.phraseservicepublic.dao.Dao;
-import com.example.phraseservicepublic.domen.api.*;
-import com.example.phraseservicepublic.domen.constant.Code;
-import com.example.phraseservicepublic.domen.dto.User;
-import com.example.phraseservicepublic.domen.response.Response;
-import com.example.phraseservicepublic.domen.response.SuccessResponse;
-import com.example.phraseservicepublic.domen.response.exception.CommonException;
+import com.example.phraseservicepublic.domain.api.*;
+import com.example.phraseservicepublic.domain.constant.Code;
+import com.example.phraseservicepublic.domain.dto.User;
+import com.example.phraseservicepublic.domain.entity.Phrase;
+import com.example.phraseservicepublic.domain.response.Response;
+import com.example.phraseservicepublic.domain.response.SuccessResponse;
+import com.example.phraseservicepublic.domain.response.exception.CommonException;
 import com.example.phraseservicepublic.service.PhraseService;
 import com.example.phraseservicepublic.util.EncryptUtils;
 import com.example.phraseservicepublic.util.ValidationUtils;
@@ -14,11 +15,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 
-import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -30,6 +30,24 @@ public class PhraseServiceImpl implements PhraseService {
     private final ValidationUtils validationUtils;
     private final EncryptUtils encryptUtils;
     private final Dao dao;
+
+    @Override
+    public ResponseEntity<Response> getMyPhrases(long accessToken) {
+
+        long userId = dao.getUserIdByPhraseId(accessToken);
+        List<Phrase> phraseList = dao.getPhrasesByUserId(userId);
+
+        List<PhraseResp> phrasesRespList = new ArrayList<>();
+        for (Phrase phrase : phraseList) {
+            List<String> tags = dao.getTagsByPhraseId(phrase.getId());
+            phrasesRespList.add(PhraseResp.builder()
+                    .id(phrase.getId())
+                    .text(phrase.getText())
+                    .timeInsert(phrase.getTimeInsert())
+                    .tags(tags).builder());
+        }
+        return new ResponseEntity<>(SuccessResponse.builder().data(GetMyPhrasesResp.builder().phrases(phrasesRespList).build()).build(), HttpStatus.OK);
+    }
 
     @Override
     public ResponseEntity<Response> publicPhrase(PublicPhraseReq req, String accessToken) {

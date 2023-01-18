@@ -1,10 +1,10 @@
 package com.example.phraseservicepublic.controller;
 
-import com.example.phraseservicepublic.domain.api.LoginReq;
-import com.example.phraseservicepublic.domain.api.PublicPhraseReq;
-import com.example.phraseservicepublic.domain.api.RegistrationReq;
+import com.example.phraseservicepublic.domain.api.user.login.LoginReq;
+import com.example.phraseservicepublic.domain.api.user.publicPhrases.PublicPhraseReq;
+import com.example.phraseservicepublic.domain.api.user.registration.RegistrationReq;
 import com.example.phraseservicepublic.domain.response.Response;
-import com.example.phraseservicepublic.service.PhraseService;
+import com.example.phraseservicepublic.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("phrase-service-public")
-public class Controller {
+@RequestMapping("phrase-service-public/user")
+public class UserController {
 
-    private final PhraseService phraseService;
+    private final UserService userService;
 
     @GetMapping("/hello")
     public String hello() {
@@ -29,7 +29,7 @@ public class Controller {
     public ResponseEntity<Response> getMyPhrases(@RequestHeader final String accessToken) {
 
         log.info("START getMyPhrases, accessToken: {}", accessToken);
-        ResponseEntity<Response> resp = phraseService.getMyPhrases(accessToken);
+        ResponseEntity<Response> resp = userService.getMyPhrases(accessToken);
         log.info("END endpoint getMyPhrases, response:{}", resp);
         return resp;
     }
@@ -37,7 +37,7 @@ public class Controller {
     @PostMapping("/publicPhrase")
     public ResponseEntity<Response> publicPhrase(@RequestHeader final String accessToken, @RequestBody final PublicPhraseReq req) {
         log.info("START endpoint publicPhrase, accessToken: {}, request: {}", accessToken, req);
-        ResponseEntity<Response> resp = phraseService.publicPhrase(req, accessToken);
+        ResponseEntity<Response> resp = userService.publicPhrase(req, accessToken);
         log.info("END endpoint publicPhrase, response: {}", resp);
         return resp;
     }
@@ -45,7 +45,7 @@ public class Controller {
     @PostMapping("/login")
     public ResponseEntity<Response> login(@RequestBody final LoginReq req) {
         log.info("START endpoint login, request: {}", req);
-        ResponseEntity<Response> resp = phraseService.login(req);
+        ResponseEntity<Response> resp = userService.login(req);
         log.info("END endpoint login, response: {}", resp);
         return resp;
 
@@ -55,7 +55,7 @@ public class Controller {
     public ResponseEntity<Response> registration(@RequestBody final RegistrationReq req) {
 
         log.info("START endpoint registration, request: {}", req);
-        ResponseEntity<Response> resp = phraseService.registration(req);
+        ResponseEntity<Response> resp = userService.registration(req);
         log.info("END endpoint registration, response: {}", resp);
         return resp;
     }

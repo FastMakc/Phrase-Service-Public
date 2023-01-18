@@ -1,5 +1,6 @@
-package com.example.phraseservicepublic.domain.api;
+package com.example.phraseservicepublic.domain.api.user.registration;
 
+import com.example.phraseservicepublic.domain.api.user.common.Authorization;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

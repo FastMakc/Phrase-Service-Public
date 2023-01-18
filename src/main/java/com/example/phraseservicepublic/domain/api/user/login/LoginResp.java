@@ -1,4 +1,4 @@
-package com.example.phraseservicepublic.domain.api;
+package com.example.phraseservicepublic.domain.api.user.login;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

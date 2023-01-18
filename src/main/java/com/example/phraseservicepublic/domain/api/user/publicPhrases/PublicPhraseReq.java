@@ -1,4 +1,4 @@
-package com.example.phraseservicepublic.domain.api;
+package com.example.phraseservicepublic.domain.api.user.publicPhrases;
 
 import com.example.phraseservicepublic.domain.constant.RegExp;
 import lombok.AllArgsConstructor;

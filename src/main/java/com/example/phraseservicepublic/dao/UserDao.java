@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public interface Dao {
+public interface UserDao {
     void addTag(String tag);
     void addPhraseTag(long phraseId, String tag);
     long addPhrase(long userId, String text);

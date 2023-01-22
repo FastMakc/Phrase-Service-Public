@@ -45,6 +45,5 @@ public class SearchDaoImpl implements com.example.phraseservicepublic.dao.Search
                         "         GROUP BY tag.id " +
                         "         ORDER BY count(tag.id) DESC) t2;"
                 , new TagRespRowMapper(), partTag, partTag);
-
     }
 }

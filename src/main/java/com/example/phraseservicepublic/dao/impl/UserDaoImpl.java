@@ -106,4 +106,6 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
     public List<String> getTagsByPhraseId(long phraseId) {
         return jdbcTemplate.queryForList("SELECT text FROM tag WHERE id IN (SELECT tag_id FROM phrase_tag WHERE phrase_id = ?);", String.class, phraseId);
     }
+
+
 }

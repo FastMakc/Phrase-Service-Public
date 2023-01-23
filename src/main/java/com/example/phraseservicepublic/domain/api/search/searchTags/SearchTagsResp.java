@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SrachTagsResp {
+public class SearchTagsResp {
 
     private List<TagResp> tags;
 }

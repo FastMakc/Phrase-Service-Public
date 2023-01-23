@@ -2,8 +2,11 @@ package com.example.phraseservicepublic.service.impl;
 
 import com.example.phraseservicepublic.dao.SearchDao;
 import com.example.phraseservicepublic.dao.UserDao;
+import com.example.phraseservicepublic.domain.api.search.searchTags.SearchPhrasesByTagReq;
 import com.example.phraseservicepublic.domain.api.search.searchTags.SearchTagsReq;
+import com.example.phraseservicepublic.domain.api.search.searchTags.SearchTagsResp;
 import com.example.phraseservicepublic.domain.api.search.searchTags.TagResp;
+import com.example.phraseservicepublic.domain.api.user.getMyPhrases.PhraseResp;
 import com.example.phraseservicepublic.domain.response.Response;
 import com.example.phraseservicepublic.domain.response.SuccessResponse;
 import com.example.phraseservicepublic.service.SearchService;
@@ -23,6 +26,18 @@ public class SerchServiceImpl implements SearchService {
     private final SearchDao searchDao;
     private final ValidationUtils validationUtils;
     private final UserDao userDao;
+
+    @Override
+    public ResponseEntity<Response> searchPhrasesByTag(SearchPhrasesByTagReq req, String accessToken) {
+
+        validationUtils.validationRequest(req);
+        long userId = commonDao.getUserIdByToken(accessToken);
+
+        List<PhraseResp> phrases = searchDao.searchPhrasesByTag(req, userId);
+        commonService.phraseEnrichment(phrases);
+
+        return new ResponseEntity<>(SuccessResponse.builder().data(CommonPhrasesResp.builder().phrases(phrases).build()).build(), HttpStatus.OK);
+    }
 
 
     @Override

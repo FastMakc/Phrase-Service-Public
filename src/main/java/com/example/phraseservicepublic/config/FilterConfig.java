@@ -1,9 +1,9 @@
-package com.example.phraseservicepublic.config;
+package ru.mycompany.phrase.config;
 
-import com.example.phraseservicepublic.filter.AuthorizationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Configuration;;
+import ru.mycompany.phrase.filter.AuthorizationFilter;
 
 @Configuration
 public class FilterConfig {

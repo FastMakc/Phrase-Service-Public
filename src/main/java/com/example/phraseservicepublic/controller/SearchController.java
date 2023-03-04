@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("phrase-service-public/search")
 public class SearchController {
 
+
     private final SearchService searchService;
 
     @PostMapping("/searchPhrasesByTag")

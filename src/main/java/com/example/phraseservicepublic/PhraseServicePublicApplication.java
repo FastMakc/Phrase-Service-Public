@@ -9,4 +9,3 @@ public class PhraseServicePublicApplication {
         SpringApplication.run(PhraseServicePublicApplication.class, args);
     }
 }
-

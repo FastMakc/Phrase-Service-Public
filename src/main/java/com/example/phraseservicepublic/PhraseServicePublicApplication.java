@@ -8,5 +8,4 @@ public class PhraseServicePublicApplication {
     public static void main(String[] args) {
         SpringApplication.run(PhraseServicePublicApplication.class, args);
     }
-
 }

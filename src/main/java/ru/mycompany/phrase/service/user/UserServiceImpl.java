@@ -1,32 +1,30 @@
-package ru.mycompany.phrase.service.impl;
+package ru.mycompany.phrase.service.user;
 
-import com.example.phraseservicepublic.dao.UserDao;
-import ru.mycompany.phrase.domain.api.user.getMyPhrases.GetMyPhrasesResp;
-import ru.mycompany.phrase.domain.api.user.getMyPhrases.PhraseResp;
-import ru.mycompany.phrase.domain.api.user.login.LoginReq;
-import ru.mycompany.phrase.domain.api.user.login.LoginResp;
-import ru.mycompany.phrase.domain.api.user.publicPhrases.PublicPhraseReq;
-import ru.mycompany.phrase.domain.api.user.registration.RegistrationReq;
-import ru.mycompany.phrase.domain.api.user.registration.RegistrationResp;
-import ru.mycompany.phrase.domain.constant.Code;
-import ru.mycompany.phrase.domain.dto.User;
-import com.example.phraseservicepublic.domain.entity.Phrase;
-import ru.mycompany.phrase.domain.response.Response;
-import ru.mycompany.phrase.domain.response.SuccessResponse;
-import ru.mycompany.phrase.domain.response.exception.CommonException;
-import ru.mycompany.phrase.service.UserService;
-import ru.mycompany.phrase.util.EncryptUtils;
-import ru.mycompany.phrase.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import ru.mycompany.phrase.dao.common.CommonDao;
+import ru.mycompany.phrase.dao.user.UserDao;
+import ru.mycompany.phrase.domain.api.common.CommonPhrasesResp;
+import ru.mycompany.phrase.domain.api.common.PhraseResp;
+import ru.mycompany.phrase.domain.api.user.login.LoginReq;
+import ru.mycompany.phrase.domain.api.user.login.LoginResp;
+import ru.mycompany.phrase.domain.api.user.publicPhrase.PublicPhraseReq;
+import ru.mycompany.phrase.domain.api.user.registration.RegistrationReq;
+import ru.mycompany.phrase.domain.api.user.registration.RegistrationResp;
+import ru.mycompany.phrase.domain.constant.Code;
+import ru.mycompany.phrase.domain.dto.User;
+import ru.mycompany.phrase.domain.response.Response;
+import ru.mycompany.phrase.domain.response.SuccessResponse;
+import ru.mycompany.phrase.domain.response.exception.CommonException;
+import ru.mycompany.phrase.service.common.CommonService;
+import ru.mycompany.phrase.util.EncryptUtils;
+import ru.mycompany.phrase.util.ValidationUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 
 @Slf4j
 @Service
@@ -36,30 +34,30 @@ public class UserServiceImpl implements UserService {
     private final ValidationUtils validationUtils;
     private final EncryptUtils encryptUtils;
     private final UserDao userDao;
+    private final CommonDao commonDao;
+    private final CommonService commonService;
+
+
 
     @Override
-    public ResponseEntity<Response> getMyPhrases(long accessToken) {
+    public ResponseEntity<Response> getMyPhrases(String accessToken) {
 
-        long userId = userDao.getUserIdByPhraseId(accessToken);
-        List<Phrase> phraseList = userDao.getPhrasesByUserId(userId);
+        long userId = commonDao.getUserIdByToken(accessToken);
 
-        List<PhraseResp> phrasesRespList = new ArrayList<>();
-        for (Phrase phrase : phraseList) {
-            List<String> tags = userDao.getTagsByPhraseId(phrase.getId());
-            phrasesRespList.add(PhraseResp.builder()
-                    .id(phrase.getId())
-                    .text(phrase.getText())
-                    .timeInsert(phrase.getTimeInsert())
-                    .tags(tags).build());
-        }
-        return new ResponseEntity<>(SuccessResponse.builder().data(GetMyPhrasesResp.builder().phrases(phrasesRespList).build()).build(), HttpStatus.OK);
+        List<PhraseResp> phrases = userDao.getPhrasesByUserId(userId);
+        commonService.phraseEnrichment(phrases);
+
+        return new ResponseEntity<>(SuccessResponse.builder().data(CommonPhrasesResp.builder().phrases(phrases).build()).build(), HttpStatus.OK);
     }
+
+
 
     @Override
     public ResponseEntity<Response> publicPhrase(PublicPhraseReq req, String accessToken) {
+
         validationUtils.validationRequest(req);
 
-        long userId = userDao.getIdByToken(accessToken);
+        long userId = commonDao.getUserIdByToken(accessToken);
         long phraseId = userDao.addPhrase(userId, req.getText());
         log.info("userId: {}, phraseId: {}", userId, phraseId);
 
@@ -71,27 +69,32 @@ public class UserServiceImpl implements UserService {
         return new ResponseEntity<>(SuccessResponse.builder().build(), HttpStatus.OK);
     }
 
+
+
     @Override
     public ResponseEntity<Response> login(LoginReq req) {
+
         validationUtils.validationRequest(req);
 
         String encryptPassword = encryptUtils.encryptPassword(req.getAuthorization().getPassword());
         String accessToken = userDao.getAccessToken(User.builder().nickname(req.getAuthorization().getNickname()).encryptPassword(encryptPassword).build());
         return new ResponseEntity<>(SuccessResponse.builder().data(LoginResp.builder().accessToken(accessToken).build()).build(), HttpStatus.OK);
-
     }
+
+
+
     @Override
     public ResponseEntity<Response> registration(RegistrationReq req) {
+
         validationUtils.validationRequest(req);
 
-        if(userDao.isExistsNickname(req.getAuthorization().getNickname()))
-            throw CommonException.builder().code(Code.NICKNAME_BUSY).message("This username is already taken, please come up with another one.").httpStatus(HttpStatus.BAD_REQUEST).build();
+        if (userDao.isExistsNickname(req.getAuthorization().getNickname()))
+            throw CommonException.builder().code(Code.NICKNAME_BUSY).userMessage("Этот ник уже занят, придумайте другой").httpStatus(HttpStatus.BAD_REQUEST).build();
 
-        String accessToken = UUID.randomUUID().toString().replace("-","") + System.currentTimeMillis();
+        String accessToken = UUID.randomUUID().toString().replace("-", "") + System.currentTimeMillis();
         String encryptPassword = encryptUtils.encryptPassword(req.getAuthorization().getPassword());
         userDao.insertNewUser(User.builder().nickname(req.getAuthorization().getNickname()).encryptPassword(encryptPassword).accessToken(accessToken).build());
 
         return new ResponseEntity<>(SuccessResponse.builder().data(RegistrationResp.builder().accessToken(accessToken).build()).build(), HttpStatus.OK);
-
     }
 }

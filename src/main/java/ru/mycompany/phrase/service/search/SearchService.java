@@ -13,6 +13,5 @@ public interface SearchService {
 
     ResponseEntity<Response> searchPhrasesByPartWord(SearchPhrasesByPartWordReq req, String accessToken);
     ResponseEntity<Response> searchPhrasesByTag(SearchPhrasesByTagReq req, String accessToken);
-
     ResponseEntity<Response> searchTags(SearchTagsReq req, String accessToken);
 }

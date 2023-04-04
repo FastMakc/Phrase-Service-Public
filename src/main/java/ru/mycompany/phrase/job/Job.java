@@ -22,6 +22,5 @@ public class Job {
         log.info("first_instance: {}", ++c);
         commonDao.testSchedulerLock("first_instance " + c);
         Thread.sleep(500);
-        
     }
 }

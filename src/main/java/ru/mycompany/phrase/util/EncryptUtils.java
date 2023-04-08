@@ -10,7 +10,6 @@ import org.springframework.util.DigestUtils;
 @RequiredArgsConstructor
 public class EncryptUtils {
 
-
     public String encryptPassword(String password) {
 
         return DigestUtils.md5DigestAsHex(password.getBytes());

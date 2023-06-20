@@ -18,5 +18,6 @@ public class FilterConfig {
                 "/phrase-service-public/user/publicPhrase"
         );
         return filterBean;
+        
     }
 }

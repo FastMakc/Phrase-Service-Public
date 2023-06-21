@@ -21,7 +21,6 @@ public class SearchController {
     private final SearchService searchService;
 
 
-
     @PostMapping("/searchUsersByPartNickname")
     public ResponseEntity<Response> searchUsersByPartNickname(@RequestHeader String accessToken, @RequestBody final SearchUsersByPartNicknameReq req) {
 

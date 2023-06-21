@@ -11,7 +11,6 @@ import ru.mycompany.phrase.domain.api.user.registration.RegistrationReq;
 import ru.mycompany.phrase.domain.response.Response;
 import ru.mycompany.phrase.service.user.UserService;
 
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor

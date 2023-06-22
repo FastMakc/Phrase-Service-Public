@@ -21,5 +21,6 @@ public interface CommonDao {
 
     long getUserIdByToken(String accessToken);
 
+    
     void testSchedulerLock(String instanceName);
 }

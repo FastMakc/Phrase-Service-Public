@@ -20,6 +20,7 @@ import ru.mycompany.phrase.domain.response.exception.CommonException;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
+
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;

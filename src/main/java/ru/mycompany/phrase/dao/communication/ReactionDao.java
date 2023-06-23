@@ -7,6 +7,7 @@ import ru.mycompany.phrase.domain.dto.WhoseComment;
 
 import java.util.List;
 
+
 @Service
 public interface ReactionDao {
 

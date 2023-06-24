@@ -8,6 +8,7 @@ import ru.mycompany.phrase.domain.api.search.searchPhrasesByTag.SearchPhrasesByT
 
 import java.util.List;
 
+
 public interface SearchDao {
 
     List<UserResp> searchUsersByPartNickname(String partNickname);

@@ -6,6 +6,7 @@ import ru.mycompany.phrase.domain.dto.User;
 
 import java.util.List;
 
+
 @Service
 public interface UserDao {
 

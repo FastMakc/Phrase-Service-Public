@@ -1,5 +1,6 @@
 package ru.mycompany.phrase.domain.api.common;
 
+
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

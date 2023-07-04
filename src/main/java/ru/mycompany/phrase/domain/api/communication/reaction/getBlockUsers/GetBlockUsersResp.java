@@ -14,5 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 public class GetBlockUsersResp {
 
+    
     private List<UserResp> blockUsers;
 }

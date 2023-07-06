@@ -1,5 +1,6 @@
 package ru.mycompany.phrase.domain.constant;
 
+
 public enum Sort {
 
     RANDOM("RAND()"),

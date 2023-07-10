@@ -1,5 +1,6 @@
 package ru.mycompany.phrase.domain.dto;
 
+
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

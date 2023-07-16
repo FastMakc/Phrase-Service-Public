@@ -16,7 +16,6 @@ import java.io.IOException;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
-
 @Slf4j
 public class AuthorizationFilter extends OncePerRequestFilter {
 

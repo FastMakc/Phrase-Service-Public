@@ -1,5 +1,6 @@
 package ru.mycompany.phrase.service.common;
 
+
 import ru.mycompany.phrase.domain.api.common.PhraseResp;
 
 import java.util.List;

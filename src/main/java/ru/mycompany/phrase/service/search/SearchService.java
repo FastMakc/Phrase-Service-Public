@@ -1,5 +1,6 @@
 package ru.mycompany.phrase.service.search;
 
+
 import org.springframework.http.ResponseEntity;
 import ru.mycompany.phrase.domain.api.search.searchPhrasesByPartWord.SearchPhrasesByPartWordReq;
 import ru.mycompany.phrase.domain.api.search.searchPhrasesByTag.SearchPhrasesByTagReq;

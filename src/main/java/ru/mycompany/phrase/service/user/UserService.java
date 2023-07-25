@@ -1,6 +1,5 @@
 package ru.mycompany.phrase.service.user;
 
-
 import org.springframework.http.ResponseEntity;
 import ru.mycompany.phrase.domain.api.user.login.LoginReq;
 import ru.mycompany.phrase.domain.api.user.publicPhrase.PublicPhraseReq;

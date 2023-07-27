@@ -1,6 +1,5 @@
 package ru.mycompany.phrase.service.user;
 
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
